@@ -1,0 +1,1 @@
+ALTER TABLE `landing_pages` ADD `clickMode` enum('mobile_only','all_devices') DEFAULT 'all_devices' NOT NULL;

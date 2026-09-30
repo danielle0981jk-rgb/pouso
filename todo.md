@@ -1,0 +1,82 @@
+# Project TODO
+
+- [x] Definir o modelo de dados para páginas de pouso, publicação, links curtos e imagens.
+- [x] Restringir as operações administrativas a usuários autenticados com papel de administrador.
+- [x] Criar o painel elegante de listagem e gerenciamento de páginas de pouso.
+- [x] Implementar formulário de criação e edição com título, imagem de capa, texto do botão, URL de destino e publicação.
+- [x] Implementar upload seguro de imagens e associação à página de pouso.
+- [x] Gerar slugs curtos e exclusivos para páginas publicadas.
+- [x] Criar a página pública responsiva que abre o destino final na mesma aba.
+- [x] Adicionar exclusão de páginas de pouso com confirmação.
+- [x] Preparar configuração, variáveis de ambiente e documentação para banco MySQL do Railway e implantação via GitHub/Railway.
+- [x] Criar e executar testes automatizados para regras de slug, validação e procedimentos do servidor.
+- [x] Validar visualmente as experiências administrativa e pública em desktop e mobile.
+- [x] Incorporar o design system da referência fornecida na página pública e no preview do editor.
+- [x] Adicionar testes Vitest para os procedimentos landing.list/create/update/remove/getPublicBySlug, cobrindo autorização admin, slug duplicado, publicação sem imagem e entidades inexistentes.
+- [x] Executar novamente pnpm test após incluir os testes dos procedimentos da feature landing.
+- [x] Validar visualmente o painel administrativo autenticado em desktop e mobile, com evidência de listagem, editor e ações principais.
+- [x] Criar/usar uma landing publicada real e validar visualmente a página pública final em desktop e mobile, incluindo imagem, CTA e estado publicado.
+- [ ] Autenticar no painel com credenciais válidas e capturar evidência visual desktop/mobile da área administrativa real, incluindo listagem carregada, editor aberto e ações principais disponíveis.
+- [ ] Criar/publicar uma landing real pelo fluxo administrativo, abrir sua URL curta real /p/:slug e validar visualmente desktop/mobile a página pública final com dados persistidos.
+- [x] Remover ou deixar explicitamente separado o modo hardcoded /p/preview da validação final, para não confundir prévia estática com landing publicada real.
+- [x] Criar um novo repositório privado no GitHub e enviar o projeto painel-pouso.
+- [x] Confirmar a URL do repositório e o commit enviado.
+- [x] Corrigir erro de banco indisponível causado pela ausência ou incompatibilidade de DATABASE_URL no Railway.
+- [x] Validar a aplicação com a configuração de banco Railway documentada e confirmar o fluxo administrativo.
+- [ ] Validar a aplicação com variáveis Railway reais (DATABASE_URL ou MYSQL_*) em execução, confirmando que o erro de banco desapareceu no runtime.
+- [ ] Autenticar no painel com ADMIN_EMAIL e ADMIN_PASSWORD válidos e verificar o fluxo administrativo após a correção do banco.
+- [x] Corrigir erro de consulta da tabela landing_pages no Railway após o banco ser conectado.
+- [x] Garantir que a migração/schema completo seja aplicado no banco de produção antes do start da aplicação.
+- [ ] Validar o painel após o redeploy e confirmar que a listagem de páginas funciona.
+- [x] Corrigir erro de permissão 10002 no painel priorizando a sessão administrativa local antes do OAuth comum.
+- [x] Validar o login administrativo e o acesso às consultas protegidas após a correção.
+- [x] Exibir o formulário de login local quando a sessão OAuth atual não tiver papel admin, evitando o erro 10002 antes do login administrativo.
+- [ ] Corrigir definitivamente a ausência de landing_pages no banco Railway usado pelo serviço web.
+- [x] Confirmar que o pre-deploy executa o schema no serviço correto e orientar um redeploy limpo.
+- [ ] Validar em um deploy real do Railway que o pre-deploy ou o start executa com sucesso no serviço web correto, com evidência em logs.
+- [ ] Após o redeploy, confirmar que landing_pages existe no banco usado pelo serviço e que a listagem do painel carrega sem erro.
+- [x] Criar configurações persistentes de identidade visual: nome, logo e cores.
+- [x] Implementar tela Identidade visual com upload de logo e controles de cor.
+- [x] Aplicar identidade visual no preview do editor e nas páginas públicas.
+- [x] Migrar o banco Railway, testar e enviar a atualização ao GitHub.
+- [x] Enviar as mudanças da identidade visual ao GitHub com brand_settings, IdentityPanel, rotas identity e atualização de scripts/migrate.mjs.
+- [ ] Fazer deploy/redeploy no Railway e validar em runtime que brand_settings existe e que salvar logo/cores persiste corretamente.
+- [x] Associar logo e cores diretamente a cada landing page, com valores padrão herdados apenas no momento da criação.
+- [x] Abrir identidade visual individual dentro do fluxo de edição da página.
+- [x] Exibir somente a logo, sem o texto SUA MARCA, na página pública individual.
+- [x] Migrar schema, testar e enviar a alteração individual por página ao GitHub/Railway.
+- [x] Adicionar ao schema de cada landing a configuração de clique do CTA: mobile_only ou all_devices.
+- [x] Adicionar no editor individual a escolha “Somente mobile” ou “Mobile e PC”.
+- [x] Bloquear o CTA em desktop quando a página estiver configurada como somente mobile, mantendo-o funcional em mobile/tablet.
+- [x] Migrar, testar e publicar a regra de clique no GitHub/Railway.
+- [ ] Enviar ao GitHub as mudanças do clickMode, migration 0004, shared/clickMode.ts, PublicLanding.tsx, Home.tsx e testes.
+- [ ] Fazer redeploy no Railway com o commit que inclui clickMode e validar o CTA em desktop e mobile.
+- [ ] Fazer novas landings herdarem logo e cores de brand_settings no momento da criação.
+- [ ] Versionar a migração 0003 dos campos individuais e garantir que o Railway a aplique no deploy.
+- [ ] Validar em runtime o login admin e o acesso às procedures protegidas após o redeploy.
+- [x] Corrigir foto de capa que não aparece ao compartilhar a URL pública da landing.
+- [ ] Garantir que capas novas e existentes usem uma URL pública acessível no navegador.
+- [ ] Testar a página compartilhada após publicar a correção e orientar a atualização das capas existentes.
+- [x] Ocultar o texto “Somente mobile” do CTA quando a landing estiver configurada como mobile_only.
+- [x] Testar e publicar o ajuste visual no GitHub/Railway.
+- [ ] Enviar ao GitHub a remoção do texto “Somente mobile” em PublicLanding.tsx e Home.tsx.
+- [ ] Fazer redeploy no Railway com o commit que remove o rótulo e validar em runtime o CTA bloqueado no desktop sem texto extra.
+- [x] Migrar o upload de capa e logo para o storage persistente do projeto, evitando caminhos locais /uploads em produção.
+- [x] Garantir que capas novas apareçam na página pública compartilhada e documentar que capas antigas precisam ser reenviadas.
+- [x] Corrigir erro “Storage config missing” no Railway com fallback automático para o volume local persistente.
+- [x] Testar o upload em modo Railway sem BUILT_IN_FORGE_API_URL/KEY e validar a URL /uploads pública.
+- [x] Publicar a correção e orientar o volume Railway montado em /data.
+- [ ] Enviar ao GitHub o fallback de upload para Railway, os testes e o README atualizado.
+- [ ] Fazer redeploy no Railway e validar upload de capa/logo sem BUILT_IN_FORGE_API_URL/KEY.
+- [ ] Documentar claramente que o volume /data preserva capas antigas em /uploads; sem volume, é necessário reenviar.
+- [ ] Criar cópia independente do projeto atual em uma nova pasta, sem alterar painel-pouso-landing-studio.
+- [ ] Criar novo repositório privado no GitHub para o próximo projeto.
+- [ ] Enviar a cópia ao novo repositório e confirmar que o remoto aponta somente para ele.
+- [x] Criar modelo de links encurtados independentes com slug exclusivo, modo pouso ou URL direta e status.
+- [x] Adicionar menu, listagem e formulário de links encurtados ao painel administrativo.
+- [x] Permitir escolher entre destino em uma página Pouso ou URL direta para anúncios.
+- [x] Criar rota pública de redirecionamento na mesma aba e permitir edição posterior do slug/destino.
+- [x] Migrar banco, testar o módulo e publicar a atualização no GitHub/Railway.
+- [ ] Enviar ao GitHub as mudanças do módulo short_links, migration 0005, db, procedures, rota /r/:slug, painel, estilos e testes.
+- [ ] Fazer redeploy no Railway e validar listagem do painel e redirecionamento público /r/:slug.
+- [ ] Validar em runtime a criação de link direto, link para landing publicada e edição posterior do destino.

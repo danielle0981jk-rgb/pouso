@@ -1,0 +1,48 @@
+{
+  "version": "7",
+  "dialect": "mysql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "5",
+      "when": 1787933571466,
+      "tag": "0000_exotic_smasher",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1787933970210,
+      "tag": "0001_plain_magma",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1787941672855,
+      "tag": "0002_pretty_yellow_claw",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "5",
+      "when": 1787942346803,
+      "tag": "0003_plain_amazoness",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "5",
+      "when": 1787942496569,
+      "tag": "0004_stormy_paper_doll",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "5",
+      "when": 1788293859570,
+      "tag": "0005_small_wasp",
+      "breakpoints": true
+    }
+  ]
+}

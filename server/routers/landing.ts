@@ -14,6 +14,7 @@ const input = z.object({
   description: z.string().trim().max(1500).default(""),
   buttonLabel: z.string().trim().min(2, "Informe o texto do botão.").max(80),
   destinationUrl: z.string().trim().refine(isHttpUrl, "Informe uma URL http ou https válida."),
+  desktopDestinationUrl: z.string().trim().refine(isHttpUrl, "Informe uma URL http ou https válida.").nullable().optional(),
   slug: z.string().trim().max(40).default(""),
   status: z.enum(["draft", "published"]),
   clickMode: z.enum(["mobile_only", "all_devices"]).default("all_devices"),

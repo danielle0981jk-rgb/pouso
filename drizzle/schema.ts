@@ -18,6 +18,7 @@ export const landingPages = mysqlTable("landing_pages", {
   description: text("description"),
   buttonLabel: varchar("buttonLabel", { length: 80 }).notNull(),
   destinationUrl: varchar("destinationUrl", { length: 2048 }).notNull(),
+  desktopDestinationUrl: varchar("desktopDestinationUrl", { length: 2048 }),
   slug: varchar("slug", { length: 40 }).notNull().unique(),
   status: mysqlEnum("status", ["draft", "published"]).default("draft").notNull(),
   coverImageUrl: text("coverImageUrl"),

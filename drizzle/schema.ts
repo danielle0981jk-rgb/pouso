@@ -54,6 +54,14 @@ export const shortLinks = mysqlTable("short_links", {
   updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
 });
 
+export const visits = mysqlTable("visits", {
+  id: int("id").autoincrement().primaryKey(),
+  ip: varchar("ip", { length: 45 }).notNull(),
+  userAgent: text("userAgent"),
+  device: mysqlEnum("device", ["mobile", "desktop"]).notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
 export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 export const brandSettings = mysqlTable("brand_settings", {

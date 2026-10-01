@@ -9,7 +9,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { uploadsDirectory } from "../uploads";
-import { getActiveShortLinkBySlug, getLandingById, incrementShortLinkClicks } from "../db";
+import { getActiveShortLinkBySlug, getLandingById, incrementShortLinkClicks, recordVisit } from "../db";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -41,6 +41,11 @@ async function startServer() {
       }
       if (!target) return res.status(404).send("Destino do link não configurado.");
       await incrementShortLinkClicks(shortLink.id);
+      
+      const ip = req.ip || req.socket.remoteAddress || "0.0.0.0";
+      const ua = req.headers["user-agent"] || "Unknown";
+      await recordVisit(ip, ua);
+
       return res.redirect(302, target);
     } catch (error) {
       console.error("[ShortLink] Redirect failed", error);

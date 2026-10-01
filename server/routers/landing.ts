@@ -45,8 +45,12 @@ export const landingRouter = router({
   getById: adminProcedure.input(z.object({ id: z.number().int().positive() })).query(async ({ input }) => {
     const page = await db.getLandingById(input.id); if (!page) throw new TRPCError({ code: "NOT_FOUND", message: "Página não encontrada." }); return page;
   }),
-  getPublicBySlug: publicProcedure.input(z.object({ slug: z.string().min(3).max(40) })).query(async ({ input }) => {
-    const page = await db.getPublishedLandingBySlug(normalizeSlug(input.slug)); if (!page) throw new TRPCError({ code: "NOT_FOUND", message: "Esta página não está disponível." }); return page;
+  getPublicBySlug: publicProcedure.input(z.object({ slug: z.string().min(3).max(40) })).query(async ({ input, ctx }) => {
+    const page = await db.getPublishedLandingBySlug(normalizeSlug(input.slug)); if (!page) throw new TRPCError({ code: "NOT_FOUND", message: "Esta página não está disponível." }); 
+    const ip = ctx.req.ip || ctx.req.socket.remoteAddress || "0.0.0.0";
+    const ua = ctx.req.headers["user-agent"] || "Unknown";
+    await db.recordVisit(ip, ua);
+    return page;
   }),
   create: adminProcedure.input(input).mutation(async ({ ctx, input }) => {
     ensurePublishable(input); const slug = await uniqueSlug(input.slug); const brand = await db.getBrandSettings();

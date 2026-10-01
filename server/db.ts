@@ -1,6 +1,6 @@
 import { and, desc, eq, ne, sql } from "drizzle-orm";
 import { drizzle } from "drizzle-orm/mysql2";
-import { BrandSettings, InsertBrandSettings, InsertLandingPage, InsertShortLink, InsertUser, brandSettings, landingPages, ShortLink, shortLinks, users } from "../drizzle/schema";
+import { BrandSettings, InsertBrandSettings, InsertLandingPage, InsertShortLink, InsertUser, brandSettings, landingPages, ShortLink, shortLinks, users, visits } from "../drizzle/schema";
 import { ENV } from "./_core/env";
 
 let database: ReturnType<typeof drizzle> | null = null;
@@ -103,4 +103,18 @@ export async function deleteShortLink(id: number) {
 export async function incrementShortLinkClicks(id: number) {
   const db = await requireDb();
   await db.update(shortLinks).set({ clicks: sql`${shortLinks.clicks} + 1` }).where(eq(shortLinks.id, id));
+}
+
+export function getDeviceFromUserAgent(ua: string): "mobile" | "desktop" {
+  const mobilePatterns = /iPhone|iPad|Android|webOS|BlackBerry|iPod|Symbian|Windows Phone/i;
+  return mobilePatterns.test(ua) ? "mobile" : "desktop";
+}
+
+export async function recordVisit(ip: string, userAgent: string) {
+  const db = await getDb();
+  if (!db) return;
+  const device = getDeviceFromUserAgent(userAgent);
+  await db.insert(visits).values({ ip, userAgent, device }).catch(err => {
+    console.error("[Tracking] Erro ao registrar visita:", err);
+  });
 }

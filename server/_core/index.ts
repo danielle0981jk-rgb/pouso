@@ -9,7 +9,7 @@ import { appRouter } from "../routers";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
 import { uploadsDirectory } from "../uploads";
-import { getActiveShortLinkBySlug, getLandingById, incrementShortLinkClicks, recordVisit } from "../db";
+import { getActiveShortLinkBySlug, getDeviceFromUserAgent, getLandingById, incrementShortLinkClicks, recordVisit } from "../db";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -45,6 +45,11 @@ async function startServer() {
       const ip = req.ip || req.socket.remoteAddress || "0.0.0.0";
       const ua = req.headers["user-agent"] || "Unknown";
       await recordVisit(ip, ua);
+
+      const device = getDeviceFromUserAgent(ua);
+      if (device === "desktop" && shortLink.mode === "direct" && shortLink.desktopDestinationUrl) {
+        target = shortLink.desktopDestinationUrl;
+      }
 
       return res.redirect(302, target);
     } catch (error) {

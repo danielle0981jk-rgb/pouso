@@ -18,6 +18,7 @@ const input = z.object({
   mode: z.enum(["landing", "direct"]),
   landingPageId: z.number().int().positive().nullable().optional(),
   destinationUrl: z.string().trim().max(2048).nullable().optional(),
+  desktopDestinationUrl: z.string().trim().max(2048).nullable().optional(),
   status: z.enum(["active", "inactive"]).default("active"),
 });
 async function uniqueSlug(requested: string, id?: number) {
@@ -33,10 +34,10 @@ async function normalizeTarget(data: z.infer<typeof input>) {
     if (!data.landingPageId) throw new TRPCError({ code: "BAD_REQUEST", message: "Escolha uma página Pouso publicada." });
     const page = await db.getLandingById(data.landingPageId);
     if (!page || page.status !== "published") throw new TRPCError({ code: "BAD_REQUEST", message: "A página escolhida precisa estar publicada." });
-    return { landingPageId: page.id, destinationUrl: null };
+    return { landingPageId: page.id, destinationUrl: null, desktopDestinationUrl: null };
   }
   if (!data.destinationUrl || !isHttpUrl(data.destinationUrl)) throw new TRPCError({ code: "BAD_REQUEST", message: "Informe uma URL http ou https válida." });
-  return { landingPageId: null, destinationUrl: data.destinationUrl };
+  return { landingPageId: null, destinationUrl: data.destinationUrl, desktopDestinationUrl: data.desktopDestinationUrl || null };
 }
 
 export const shortLinksRouter = router({

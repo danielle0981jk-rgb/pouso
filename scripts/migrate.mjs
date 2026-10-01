@@ -100,6 +100,7 @@ try {
     device ENUM('mobile','desktop') NOT NULL,
     createdAt TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
   ) ENGINE=InnoDB`);
+  await ensureColumn("short_links", "desktopDestinationUrl", "VARCHAR(2048) NULL");
   console.log("Database schema is ready.");
 } finally {
   await connection.end();

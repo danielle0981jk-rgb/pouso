@@ -47,6 +47,7 @@ export const shortLinks = mysqlTable("short_links", {
   mode: mysqlEnum("mode", ["landing", "direct"]).notNull().default("direct"),
   landingPageId: int("landingPageId"),
   destinationUrl: varchar("destinationUrl", { length: 2048 }),
+  desktopDestinationUrl: varchar("desktopDestinationUrl", { length: 2048 }),
   status: mysqlEnum("status", ["active", "inactive"]).notNull().default("active"),
   clicks: int("clicks").notNull().default(0),
   creatorEmail: varchar("creatorEmail", { length: 320 }).notNull(),

@@ -14,11 +14,12 @@ type Draft = {
   mode: Mode;
   landingPageId: number | null;
   destinationUrl: string;
+  desktopDestinationUrl: string | null;
   status: Status;
 };
 
 type Page = { id: number; title: string; slug: string; status: string };
-const emptyDraft: Draft = { name: "", slug: "", mode: "direct", landingPageId: null, destinationUrl: "", status: "active" };
+const emptyDraft: Draft = { name: "", slug: "", mode: "direct", landingPageId: null, destinationUrl: "", desktopDestinationUrl: null, status: "active" };
 
 export default function ShortLinksPanel() {
   const [editing, setEditing] = useState<Draft | null>(null);
@@ -50,7 +51,7 @@ export default function ShortLinksPanel() {
           <div className="row-actions">
             <button title="Abrir link" onClick={() => window.open(url, "_blank")}><ExternalLink size={16} /></button>
             <button title="Copiar link" onClick={() => { navigator.clipboard.writeText(url); toast.success("Link curto copiado"); }}><Copy size={16} /></button>
-            <button title="Editar" onClick={() => setEditing({ id: link.id, name: link.name, slug: link.slug, mode: link.mode, landingPageId: link.landingPageId, destinationUrl: link.destinationUrl ?? "", status: link.status })}>Editar</button>
+            <button title="Editar" onClick={() => setEditing({ id: link.id, name: link.name, slug: link.slug, mode: link.mode, landingPageId: link.landingPageId, destinationUrl: link.destinationUrl ?? "", desktopDestinationUrl: link.desktopDestinationUrl ?? null, status: link.status })}>Editar</button>
             <button className="danger" title="Excluir" onClick={() => { if (window.confirm("Excluir este link curto?")) remove.mutate({ id: link.id }); }}><Trash2 size={16} /></button>
           </div>
         </div>;
@@ -64,7 +65,7 @@ function ShortLinkEditor({ draft, setDraft, pages, onSaved, onCancel }: { draft:
   const update = trpc.shortLinks.update.useMutation({ onSuccess: () => { toast.success("Link curto atualizado"); onSaved(); }, onError: error => toast.error(error.message) });
   const busy = create.isPending || update.isPending;
   const submit = () => {
-    const payload = { ...draft, landingPageId: draft.mode === "landing" ? draft.landingPageId : null, destinationUrl: draft.mode === "direct" ? draft.destinationUrl : null };
+    const payload = { ...draft, landingPageId: draft.mode === "landing" ? draft.landingPageId : null, destinationUrl: draft.mode === "direct" ? draft.destinationUrl : null, desktopDestinationUrl: draft.mode === "direct" ? draft.desktopDestinationUrl : null };
     if (draft.id) update.mutate({ ...payload, id: draft.id }); else create.mutate(payload);
   };
   return <section className="short-link-editor">
@@ -73,7 +74,7 @@ function ShortLinkEditor({ draft, setDraft, pages, onSaved, onCancel }: { draft:
       <label>Nome interno<Input value={draft.name} onChange={e => setDraft({ ...draft, name: e.target.value })} placeholder="Campanha Facebook - verão" /></label>
       <label>Slug do link<div className="slug-input"><span>/r/</span><Input value={draft.slug} onChange={e => setDraft({ ...draft, slug: e.target.value })} placeholder="campanha-verao" /></div><small className="field-help">O slug vira o endereço curto usado no anúncio.</small></label>
       <label>Tipo de destino<select className="native-select" value={draft.mode} onChange={e => setDraft({ ...draft, mode: e.target.value as Mode, landingPageId: null, destinationUrl: "" })}><option value="direct">Somente link curto → URL direta</option><option value="landing">Link curto → Página Pouso</option></select></label>
-      {draft.mode === "landing" ? <label>Página Pouso publicada<select className="native-select" value={draft.landingPageId ?? ""} onChange={e => setDraft({ ...draft, landingPageId: Number(e.target.value) || null })}><option value="">Selecione uma página</option>{pages.map(page => <option key={page.id} value={page.id}>{page.title} · /{page.slug}</option>)}</select></label> : <label>URL direta de destino<Input type="url" value={draft.destinationUrl} onChange={e => setDraft({ ...draft, destinationUrl: e.target.value })} placeholder="https://seu-destino.com" /></label>}
+      {draft.mode === "landing" ? <label>Página Pouso publicada<select className="native-select" value={draft.landingPageId ?? ""} onChange={e => setDraft({ ...draft, landingPageId: Number(e.target.value) || null })}><option value="">Selecione uma página</option>{pages.map(page => <option key={page.id} value={page.id}>{page.title} · /{page.slug}</option>)}</select></label> : <><label>URL direta de destino (Mobile / Padrão)<Input type="url" value={draft.destinationUrl} onChange={e => setDraft({ ...draft, destinationUrl: e.target.value })} placeholder="https://seu-destino.com" /></label><label>URL de destino para PC (Opcional)<Input type="url" value={draft.desktopDestinationUrl ?? ""} onChange={e => setDraft({ ...draft, desktopDestinationUrl: e.target.value || null })} placeholder="https://seu-destino-desktop.com" /><small className="field-help">Se preenchido, quem acessar de um PC será levado para cá em vez do destino padrão.</small></label></>}
       <label>Status<select className="native-select" value={draft.status} onChange={e => setDraft({ ...draft, status: e.target.value as Status })}><option value="active">Ativo</option><option value="inactive">Inativo</option></select></label>
       <div className="editor-actions"><Button variant="outline" disabled={busy} onClick={onCancel}><X size={16} /> Cancelar</Button><Button className="cta-button" disabled={busy} onClick={submit}><Save size={16} /> {busy ? "Salvando..." : "Salvar link"}</Button></div>
     </div>

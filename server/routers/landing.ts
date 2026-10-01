@@ -23,6 +23,11 @@ const input = z.object({
   primaryColor: z.string().regex(/^#[0-9a-fA-F]{6}$/).optional(),
   accentColor: z.string().regex(/^#[0-9a-fA-F]{6}$/).optional(),
   backgroundColor: z.string().regex(/^#[0-9a-fA-F]{6}$/).optional(),
+  buttonTextColor: z.string().regex(/^#[0-9a-fA-F]{6}$/).optional(),
+  textColor: z.string().regex(/^#[0-9a-fA-F]{6}$/).optional(),
+  kickerText: z.string().max(100).nullable().optional(),
+  trustText: z.string().max(100).nullable().optional(),
+  footerText: z.string().max(1500).nullable().optional(),
   coverImageUrl: z.string().max(2048).nullable().optional(),
   coverImagePath: z.string().max(1024).nullable().optional(),
 });

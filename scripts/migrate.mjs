@@ -57,6 +57,11 @@ try {
     primaryColor VARCHAR(7) NOT NULL DEFAULT '#ff7a22',
     accentColor VARCHAR(7) NOT NULL DEFAULT '#ffad36',
     backgroundColor VARCHAR(7) NOT NULL DEFAULT '#121313',
+    buttonTextColor VARCHAR(7) NOT NULL DEFAULT '#ffffff',
+    textColor VARCHAR(7) NOT NULL DEFAULT '#ffffff',
+    kickerText VARCHAR(100) NULL,
+    trustText VARCHAR(100) NULL,
+    footerText TEXT NULL,
     clickMode ENUM('mobile_only','all_devices') NOT NULL DEFAULT 'all_devices',
     creatorEmail VARCHAR(320) NOT NULL,
     publishedAt TIMESTAMP NULL,
@@ -68,6 +73,11 @@ try {
   await ensureColumn("landing_pages", "primaryColor", "VARCHAR(7) NOT NULL DEFAULT '#ff7a22'");
   await ensureColumn("landing_pages", "accentColor", "VARCHAR(7) NOT NULL DEFAULT '#ffad36'");
   await ensureColumn("landing_pages", "backgroundColor", "VARCHAR(7) NOT NULL DEFAULT '#121313'");
+  await ensureColumn("landing_pages", "buttonTextColor", "VARCHAR(7) NOT NULL DEFAULT '#ffffff'");
+  await ensureColumn("landing_pages", "textColor", "VARCHAR(7) NOT NULL DEFAULT '#ffffff'");
+  await ensureColumn("landing_pages", "kickerText", "VARCHAR(100) NULL");
+  await ensureColumn("landing_pages", "trustText", "VARCHAR(100) NULL");
+  await ensureColumn("landing_pages", "footerText", "TEXT NULL");
   await ensureColumn("landing_pages", "clickMode", "ENUM('mobile_only','all_devices') NOT NULL DEFAULT 'all_devices'");
   await ensureColumn("landing_pages", "desktopDestinationUrl", "VARCHAR(2048) NULL");
   await connection.query(`CREATE TABLE IF NOT EXISTS short_links (

@@ -47,6 +47,7 @@ try {
     description TEXT NULL,
     buttonLabel VARCHAR(80) NOT NULL,
     destinationUrl VARCHAR(2048) NOT NULL,
+    desktopDestinationUrl VARCHAR(2048) NULL,
     slug VARCHAR(40) NOT NULL UNIQUE,
     status ENUM('draft','published') NOT NULL DEFAULT 'draft',
     coverImageUrl TEXT NULL,
@@ -68,6 +69,7 @@ try {
   await ensureColumn("landing_pages", "accentColor", "VARCHAR(7) NOT NULL DEFAULT '#ffad36'");
   await ensureColumn("landing_pages", "backgroundColor", "VARCHAR(7) NOT NULL DEFAULT '#121313'");
   await ensureColumn("landing_pages", "clickMode", "ENUM('mobile_only','all_devices') NOT NULL DEFAULT 'all_devices'");
+  await ensureColumn("landing_pages", "desktopDestinationUrl", "VARCHAR(2048) NULL");
   await connection.query(`CREATE TABLE IF NOT EXISTS short_links (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(160) NOT NULL,
